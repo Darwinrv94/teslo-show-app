@@ -16,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        body: GeometricalBackground( 
+        body: GeometricalBackground(
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Column(
@@ -31,7 +31,7 @@ class RegisterScreen extends StatelessWidget {
                       onPressed: (){
                         if ( !context.canPop() ) return;
                         context.pop();
-                      }, 
+                      },
                       icon: const Icon( Icons.arrow_back_rounded, size: 40, color: Colors.white )
                     ),
                     const Spacer(flex: 1),
@@ -41,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
 
                 const SizedBox( height: 50 ),
-    
+
                 Container(
                   height: size.height - 260, // 80 los dos sizebox y 100 el ícono
                   width: double.infinity,
@@ -72,9 +72,11 @@ class _RegisterForm extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          const SizedBox( height: 50 ),
+          //const SizedBox( height: 50 ),
+          const Spacer(flex: 2),
           Text('Nueva cuenta', style: textStyles.titleMedium ),
-          const SizedBox( height: 50 ),
+          //const SizedBox( height: 50 ),
+          const Spacer(),
 
           const CustomTextFormField(
             label: 'Nombre completo',
@@ -92,14 +94,14 @@ class _RegisterForm extends StatelessWidget {
             label: 'Contraseña',
             obscureText: true,
           ),
-    
+
           const SizedBox( height: 30 ),
 
           const CustomTextFormField(
             label: 'Repita la contraseña',
             obscureText: true,
           ),
-    
+
           const SizedBox( height: 30 ),
 
           SizedBox(
@@ -126,8 +128,8 @@ class _RegisterForm extends StatelessWidget {
                     return context.pop();
                   }
                   context.go('/login');
-                  
-                }, 
+
+                },
                 child: const Text('Ingresa aquí')
               )
             ],
