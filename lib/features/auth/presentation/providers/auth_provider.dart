@@ -1,19 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_shop/features/auth/domain/domain.dart';
 import 'package:teslo_shop/features/auth/infraestructure/infraestructure.dart';
+import 'package:teslo_shop/features/shared/shared.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = AuthRepositoryImpl();
+  final keyValueStorageService = KeyValueStorageServiceImpl();
 
-  return AuthNotifier(authRepository: authRepository);
+  return AuthNotifier(
+    authRepository: authRepository,
+    keyValueStorageService: keyValueStorageService
+  );
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
+  final KeyValueStorageService keyValueStorageService;
 
   AuthNotifier({
-    required this.authRepository
-  }): super(AuthState());
+    required this.authRepository,
+    required this.keyValueStorageService
+  }): super(AuthState()) {
+    checkAuthStatus();
+  }
 
   Future<void> loginUser(String email, String password) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -34,11 +43,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> checkAuthStatus() async {
+    final token = await keyValueStorageService.getValue<String>('token');
 
+    if (token == null) return logout();
+
+    try {
+      final user = await authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } catch (e) {
+      logout();
+    }
   }
 
   Future<void> logout([String? errorMessage]) async {
-    // Todo: limpiar token
+    await keyValueStorageService.removeKey('token');
 
     state = state.copyWith(
       authStatus: AuthStatus.notAuthenticated,
@@ -47,12 +65,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  void _setLoggedUser(User user) {
-    // Todo: necesito guardar el token en el dispositivo
+  Future<void> _setLoggedUser(User user) async {
+    await keyValueStorageService.setKeyValue('token', user.token);
 
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
+      errorMessage: ''
     );
   }
 }
