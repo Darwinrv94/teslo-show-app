@@ -15,12 +15,12 @@ class ProductMapper {
     tags: List<String>.from(json['tags'].map((tag) => tag)),
     images: List<String>.from(
       json['images'].map(
-        (String image) => image.startsWith('http')
+        (image) => image.startsWith('http')
           ? image
           : '${ Environment.apiUrl }/files/product/$image',
       )
     ),
-    user: UserMapper.userJsonToEntity( json['user'] )
+    user: null //UserMapper.userJsonToEntity( json['user']) : null
   );
 
 

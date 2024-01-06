@@ -25,6 +25,6 @@ class Product {
     required this.gender,
     required this.tags,
     required this.images,
-    this.user,
+    required this.user,
   });
 }
