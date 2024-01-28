@@ -1,5 +1,4 @@
 import 'package:teslo_shop/config/config.dart';
-import 'package:teslo_shop/features/auth/infraestructure/infraestructure.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
 
 class ProductMapper {
@@ -20,7 +19,7 @@ class ProductMapper {
           : '${ Environment.apiUrl }/files/product/$image',
       )
     ),
-    user: null //UserMapper.userJsonToEntity( json['user']) : null
+    user: null //UserMapper.userJsonToEntity(json['user']) : null
   );
 
 
