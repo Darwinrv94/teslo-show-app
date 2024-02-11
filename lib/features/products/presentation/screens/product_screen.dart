@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_shop/features/products/domain/entities/product.dart';
-import 'package:teslo_shop/features/products/presentation/providers/product_provider.dart';
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
 import 'package:teslo_shop/features/shared/widgets/widgets.dart';
 
@@ -26,7 +25,7 @@ class ProductScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar producto'),
+        title: Text(productId == 'new' ? 'Nuevo producto' : 'Editar producto'),
         actions: [
           IconButton(
             onPressed: () {},
